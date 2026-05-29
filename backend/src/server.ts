@@ -26,9 +26,13 @@ app.use(cookieParser());
 
 // API routes
 app.use("/auth", authRouter);
+app.use("/api/auth", authRouter);
 app.use("/entries", entriesRouter);
+app.use("/api/entries", entriesRouter);
 app.use("/emotions", emotionsRouter);
+app.use("/api/emotions", emotionsRouter);
 app.use("/me", meEmotionColorsRouter);
+app.use("/api/me", meEmotionColorsRouter);
 
 // Serve static frontend in production
 const frontendDist = path.join(__dirname, "../../frontend/dist");
