@@ -17,6 +17,7 @@ RUN npx prisma generate
 
 # ── Stage 3: Production image ─────────────────────────────────────────────────
 FROM node:20-alpine AS runner
+RUN apk add --no-cache openssl
 WORKDIR /app
 
 # Copy backend build + node_modules
