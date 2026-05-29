@@ -1,5 +1,5 @@
 # ── Stage 1: Build frontend ──────────────────────────────────────────────────
-FROM node:20-alpine AS frontend-builder
+FROM node:20-slim AS frontend-builder
 WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm ci
@@ -7,7 +7,7 @@ COPY frontend/ ./
 RUN npm run build
 
 # ── Stage 2: Build backend ────────────────────────────────────────────────────
-FROM node:20-alpine AS backend-builder
+FROM node:20-slim AS backend-builder
 WORKDIR /app/backend
 COPY backend/package*.json ./
 RUN npm ci
@@ -16,8 +16,8 @@ RUN npm run build
 RUN npx prisma generate
 
 # ── Stage 3: Production image ─────────────────────────────────────────────────
-FROM node:20-alpine AS runner
-RUN apk add --no-cache openssl
+FROM node:20-slim AS runner
+RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
 # Copy backend build + node_modules
