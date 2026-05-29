@@ -34,4 +34,4 @@ WORKDIR /app/backend
 EXPOSE 5000
 
 # Apply DB migrations then start server
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/server.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && echo '=== Starting server ===' && node dist/server.js; echo '=== Server exited with code' $?"]
