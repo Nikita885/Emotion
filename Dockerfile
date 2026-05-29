@@ -34,4 +34,4 @@ WORKDIR /app/backend
 EXPOSE 3000
 
 # Apply DB migrations then start server
-CMD ["sh", "-c", "npx prisma migrate deploy && echo '=== Starting server ===' && node dist/server.js; echo '=== Server exited with code' $?"]
+CMD ["node", "-e", "require('http').createServer((req,res)=>{res.writeHead(200);res.end('ok')}).listen(3000,'0.0.0.0',()=>console.log('Test server running on 3000'))"]
