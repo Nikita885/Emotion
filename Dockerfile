@@ -31,7 +31,7 @@ COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 
 WORKDIR /app/backend
 
-EXPOSE 5000
+EXPOSE 3000
 
 # Apply DB migrations then start server
 CMD ["sh", "-c", "npx prisma migrate deploy && echo '=== Starting server ===' && node dist/server.js; echo '=== Server exited with code' $?"]
