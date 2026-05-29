@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* enable Tailwind dark:class if you decide to add a toggle */
+:root {
+  color-scheme: light;
+}
+.dark {
+  color-scheme: dark;
+}

@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  refreshTokenHash String?
+  emotionPaletteSetAt DateTime?
+
+  entries      Entry[]
+  emotionColors UserEmotionColor[]
+}
+
+model Entry {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  date      DateTime
+  mood      Int
+  colorHex  String
+  emotions  String[]
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, date])
+}
+
+model Emotion {
+  id              Int      @id @default(autoincrement())
+  slug            String   @unique
+  title           String
+  defaultColorHex String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  userColors      UserEmotionColor[]
+}
+
+model UserEmotionColor {
+  userId    Int
+  emotionId Int
+  colorHex  String
+  updatedAt DateTime @default(now())
+
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emotion   Emotion @relation(fields: [emotionId], references: [id], onDelete: Cascade)
+
+  @@id([userId, emotionId])
+  @@index([emotionId])
+}
